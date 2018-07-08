@@ -1,0 +1,15 @@
+﻿<UserControl x:Class="Pat.Ui.Controls.ModuleSelectorControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:pg="http://schemas.denisvuyka.wordpress.com/wpfpropertygrid"
+             xmlns:local="clr-namespace:Pat.Ui.Controls"
+             mc:Ignorable="d" 
+             d:DesignWidth="800">
+    <StackPanel>
+        <ComboBox ItemsSource="{Binding Path=Modules}" DisplayMemberPath="Name" SelectedItem="{Binding Path=SelectedModule}" SelectionChanged="ComboBox_SelectionChanged">
+        </ComboBox>
+        <pg:PropertyGrid x:Name="propertyGrid" Visibility="{Binding HasOptions, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+    </StackPanel>
+</UserControl>

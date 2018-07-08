@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4C2180AE-EBB1-4B6A-801E-82EA64AF9EDC}</ProjectGuid>
+    <ProjectTypeGuids>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Pat.Tests</RootNamespace>
+    <AssemblyName>Pat.Tests</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="nunit.framework, Version=3.5.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb">
+      <HintPath>..\packages\NUnit.3.5.0\lib\net45\nunit.framework.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CsvTests.cs" />
+    <Compile Include="DimensionTests.cs" />
+    <Compile Include="MathTests.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SourceModifierTests.cs" />
+    <Compile Include="TestsBase.cs" />
+    <Compile Include="TriangulationModifierTests.cs" />
+    <Compile Include="TriangulationTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Pat.Api\Pat.Api.csproj">
+      <Project>{c8a4bf7e-b6e2-45a0-a61d-10f577f0e86b}</Project>
+      <Name>Pat.Api</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pat.BusinessLogic\Pat.BusinessLogic.csproj">
+      <Project>{a8861b66-6ee1-4ba0-87d8-41ba57f74dce}</Project>
+      <Name>Pat.BusinessLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pat.DataSource.Csv\Pat.DataSource.Csv.csproj">
+      <Project>{7cc2c8c6-baf3-475c-bd20-802387e4e926}</Project>
+      <Name>Pat.DataSource.Csv</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pat.Dimension.Feet\Pat.Dimension.Feet.csproj">
+      <Project>{63794f77-b411-4300-aea7-39537c4a1a41}</Project>
+      <Name>Pat.Dimension.Feet</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pat.Dimensions.Meters\Pat.Dimensions.Meters.csproj">
+      <Project>{eaed6cb8-3090-4987-bdc1-d4025ed79cc0}</Project>
+      <Name>Pat.Dimensions.Meters</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pat.SourceModifier.Mover\Pat.SourceModifier.Mover.csproj">
+      <Project>{5a18ebe2-eb5d-4787-9cc7-5be3df201562}</Project>
+      <Name>Pat.SourceModifier.Mover</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pat.Triangulation.Default\Pat.Triangulation.Default.csproj">
+      <Project>{9fde4f29-770e-4245-9388-fac79fdb7dfe}</Project>
+      <Name>Pat.Triangulation.Default</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pat.TriangulationModifier.Cut\Pat.TriangulationModifier.Cut.csproj">
+      <Project>{bcbfb1d5-cdb9-4d6b-8121-831bd87ca46e}</Project>
+      <Name>Pat.TriangulationModifier.Cut</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pat.TriangulationModifier.Mover\Pat.TriangulationModifier.Mover.csproj">
+      <Project>{1c05c435-e0f3-464e-a890-bc6d21458e28}</Project>
+      <Name>Pat.TriangulationModifier.Mover</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+         Other similar extension points exist, see Microsoft.Common.targets.
+    <Target Name="BeforeBuild">
+    </Target>
+    <Target Name="AfterBuild">
+    </Target>
+    -->
+</Project>
