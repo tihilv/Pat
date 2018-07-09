@@ -38,15 +38,15 @@ namespace Pat.TriangulationModifier.Cut
 
                     var intersect = Intersection(triangle.A, triangle.B, cutOptions.CutDepth);
                     if (intersect != null)
-                        intersectionList.Add(intersect);
+                        intersectionList.Add(intersect.Value);
 
                     intersect = Intersection(triangle.B, triangle.C, cutOptions.CutDepth);
                     if (intersect != null)
-                        intersectionList.Add(intersect);
+                        intersectionList.Add(intersect.Value);
 
                     intersect = Intersection(triangle.A, triangle.C, cutOptions.CutDepth);
                     if (intersect != null)
-                        intersectionList.Add(intersect);
+                        intersectionList.Add(intersect.Value);
 
                     var firstPoint = pointsToInclude[0];
                     triangles.Add(new Triangle3D(firstPoint, intersectionList[0].Intersection, intersectionList[1].Intersection));
@@ -59,9 +59,7 @@ namespace Pat.TriangulationModifier.Cut
                         else if (intersectionList[1].HasPoint(secondPoint))
                             triangles.Add(new Triangle3D(firstPoint, secondPoint, intersectionList[1].Intersection));
                         else
-                        {
-                            throw new Exception("AAAA");
-                        }
+                            throw new Exception("Unexpected program behavior.");
                     }
                 }
             }
@@ -69,7 +67,7 @@ namespace Pat.TriangulationModifier.Cut
             return new TriangulatedSurface(triangles.ToArray());
         }
 
-        private IntersectionData Intersection(Point3D a, Point3D b, double z)
+        private IntersectionData? Intersection(Point3D a, Point3D b, double z)
         {
             if ((Equality.AreLessOrEqual(a.Z, z) && Equality.AreLessOrEqual(b.Z, z)) ||
                 (Equality.AreMoreOrEqual(a.Z, z) && Equality.AreMoreOrEqual(b.Z, z)))
@@ -90,7 +88,7 @@ namespace Pat.TriangulationModifier.Cut
             return new IntersectionData(new Point3D(x, y, z), a, b);
         }
 
-        class IntersectionData
+        struct IntersectionData
         {
             public readonly Point3D Intersection;
             private readonly Point3D _pointA;

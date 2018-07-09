@@ -97,8 +97,8 @@ namespace Pat.BusinessLogic
             _cutTriangulatedBaseHorizon = FluidContactModifierSelector.SelectedModule.GetModifiedSurface(_triangulatedBaseHorizon, FluidContactModifierSelector.SelectedModuleOptions);
 
             var maxZ = Math.Max(
-                _cutTriangulatedBaseHorizon.Triangles.SelectMany(t => t.Points).Max(p => p.Z),
-                _cutTriangulatedTopHorizon.Triangles.SelectMany(t => t.Points).Max(p => p.Z));
+                _cutTriangulatedBaseHorizon.Triangles.Any()?_cutTriangulatedBaseHorizon.Triangles.SelectMany(t => t.Points).Max(p => p.Z):0,
+                _cutTriangulatedTopHorizon.Triangles.Any()?_cutTriangulatedTopHorizon.Triangles.SelectMany(t => t.Points).Max(p => p.Z):0);
 
             var volumeTop = _volumeService.GetVolumeUnderSurface(_cutTriangulatedTopHorizon, maxZ);
             var volumeBase = _volumeService.GetVolumeUnderSurface(_cutTriangulatedBaseHorizon, maxZ);
