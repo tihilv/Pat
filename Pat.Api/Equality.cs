@@ -1,5 +1,4 @@
 ﻿using System;
-using Pat.Api.Model;
 
 namespace Pat.Api
 {

@@ -2,10 +2,11 @@
 using System.Linq;
 using Pat.Api;
 using Pat.Api.Model;
+using Pat.Api.Services;
 
 namespace Pat.BusinessLogic.Services
 {
-    public class VolumeService
+    public class VolumeService : IVolumeService
     {
         public double GetVolumeUnderSurface(TriangulatedSurface surface, double lowerLine)
         {

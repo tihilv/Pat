@@ -32,15 +32,6 @@ namespace Pat.Api.Model
             return new Triangle3D(new Point3D(A.X, A.Y, 0), new Point3D(B.X, B.Y, 0), new Point3D(C.X, C.Y, 0));
         }
 
-        public double GetPerimeter()
-        {
-            double ab = A.DistanceTo(B);
-            double bc = B.DistanceTo(C);
-            double ac = A.DistanceTo(C);
-
-            return ab + bc + ac;
-        }
-        
         public double GetSquare()
         {
             double ab = A.DistanceTo(B);

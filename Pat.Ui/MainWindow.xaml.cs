@@ -1,22 +1,17 @@
 ﻿using System;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Controls.WpfPropertyGrid;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Media3D;
-using HelixToolkit.Wpf;
 using Pat.BusinessLogic;
 using Pat.Ui.Controls;
 
 namespace Pat.Ui
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
-        DefaultPatWorkflow _workflow;
+        readonly DefaultPatWorkflow _workflow;
         public MainWindow()
         {
             InitializeComponent();
@@ -37,7 +32,7 @@ namespace Pat.Ui
         private void OnShowDialogEditor(object sender, ExecutedRoutedEventArgs e)
         {
             PropertyItemValue parameter = e.Parameter as PropertyItemValue;
-            parameter?.ParentProperty?.Editor?.ShowDialog(parameter, (IInputElement) this);
+            parameter?.ParentProperty?.Editor?.ShowDialog(parameter, this);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

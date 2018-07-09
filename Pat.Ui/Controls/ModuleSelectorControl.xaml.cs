@@ -4,9 +4,6 @@ using Pat.BusinessLogic;
 
 namespace Pat.Ui.Controls
 {
-    /// <summary>
-    /// Interaction logic for ModuleSelectorControl.xaml
-    /// </summary>
     public partial class ModuleSelectorControl : UserControl
     {
         public ModuleSelectorControl()

@@ -57,7 +57,9 @@
     <Compile Include="Modules\ITriangulationModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IDimensionService.cs" />
+    <Compile Include="Services\IModulesService.cs" />
     <Compile Include="Services\IOptionsService.cs" />
+    <Compile Include="Services\IVolumeService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

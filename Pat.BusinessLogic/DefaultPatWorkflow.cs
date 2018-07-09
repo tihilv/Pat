@@ -13,15 +13,16 @@ namespace Pat.BusinessLogic
 {
     public class DefaultPatWorkflow: INotifyPropertyChanged
     {
-        private ModulesLoader _modulesLoader;
-        private IOptionsService _optionsService;
+        private readonly IModulesService _modulesService;
+        private readonly IOptionsService _optionsService;
+        private readonly IVolumeService _volumeService;
 
         private readonly ModuleSelector<IDataSourceModule> _topHorizonDataSourceSelector;
         private readonly ModuleSelector<ISourceModifierModule> _baseHorizonModifierSelector;
         private readonly ModuleSelector<ITriangulationModule> _triangulationModuleSelector;
         private readonly ModuleSelector<ITriangulationModifierModule> _fluidContactModifierSelector;
         private readonly ModuleSelector<IDimensionModule> _resultDimensionSelector;
-        private readonly VolumeService _volumeService;
+        
 
         private SourceSurface _sourceTopHorizon;
         
@@ -37,20 +38,19 @@ namespace Pat.BusinessLogic
 
         public DefaultPatWorkflow(string appDirectory)
         {
-            _modulesLoader = new ModulesLoader(Path.Combine(appDirectory, "Modules"));
+            _modulesService = new ModulesService(Path.Combine(appDirectory, "Modules"));
             _optionsService = new OptionsService(Path.Combine(appDirectory, "options.bin"));
+            _volumeService = new VolumeService();
+            
+            DimensionedValue.DimensionService = new DimensionService(_modulesService.GetModules<IDimensionModule>());
 
-            DimensionedValue.DimensionService = new DimensionService(_modulesLoader.GetModules<IDimensionModule>());
-
-            _topHorizonDataSourceSelector = new ModuleSelector<IDataSourceModule>(_modulesLoader.GetModules<IDataSourceModule>(), _optionsService);
-            _baseHorizonModifierSelector = new ModuleSelector<ISourceModifierModule>(_modulesLoader.GetModules<ISourceModifierModule>(), _optionsService);
-            _triangulationModuleSelector = new ModuleSelector<ITriangulationModule>(_modulesLoader.GetModules<ITriangulationModule>(), _optionsService);
-            _fluidContactModifierSelector = new ModuleSelector<ITriangulationModifierModule>(_modulesLoader.GetModules<ITriangulationModifierModule>(), _optionsService);
-            _resultDimensionSelector = new ModuleSelector<IDimensionModule>(_modulesLoader.GetModules<IDimensionModule>().Where(m => m.Type == DimensionType.Cubic), _optionsService);
+            _topHorizonDataSourceSelector = new ModuleSelector<IDataSourceModule>(_modulesService.GetModules<IDataSourceModule>(), _optionsService);
+            _baseHorizonModifierSelector = new ModuleSelector<ISourceModifierModule>(_modulesService.GetModules<ISourceModifierModule>(), _optionsService);
+            _triangulationModuleSelector = new ModuleSelector<ITriangulationModule>(_modulesService.GetModules<ITriangulationModule>(), _optionsService);
+            _fluidContactModifierSelector = new ModuleSelector<ITriangulationModifierModule>(_modulesService.GetModules<ITriangulationModifierModule>(), _optionsService);
+            _resultDimensionSelector = new ModuleSelector<IDimensionModule>(_modulesService.GetModules<IDimensionModule>().Where(m => m.Type == DimensionType.Cubic), _optionsService);
 
             _resultDimensionSelector.PropertyChanged += ResultDimensionSelectorOnPropertyChanged;
-
-            _volumeService = new VolumeService();
         }
 
         public ModuleSelector<IDataSourceModule> TopHorizonDataSourceSelector => _topHorizonDataSourceSelector;

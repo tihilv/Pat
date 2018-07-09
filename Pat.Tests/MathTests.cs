@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using Pat.Api;
 using Pat.Api.Model;
+using Pat.Api.Services;
 using Pat.BusinessLogic.Services;
 using Pat.DataSource.Csv;
 using Pat.SourceModifier.Mover;
@@ -23,7 +24,7 @@ namespace Pat.Tests
         [Test]
         public void TestVolumes()
         {
-            VolumeService service = new VolumeService();
+            IVolumeService service = new VolumeService();
             
             TriangulatedSurface surface = new TriangulatedSurface(new []{new Triangle3D(new Point3D(0, 0, 10), new Point3D(10, 0, 10), new Point3D(0, 10, 10))});
 
@@ -59,7 +60,7 @@ namespace Pat.Tests
             SourceSurface surfaceBottom = mover.GetModifiedSurface(surfaceTop, moverOptions);
             var triangulatedSurfaceBottom = triangulation.GetTriangulatedSurface(surfaceBottom, triangulation.GetDefaultOptions());
 
-            VolumeService service = new VolumeService();
+            IVolumeService service = new VolumeService();
 
             var topVolume = service.GetVolumeUnderSurface(triangulatedSurfaceTop, 10000);
             var bottomVolume = service.GetVolumeUnderSurface(triangulatedSurfaceBottom, 10000);

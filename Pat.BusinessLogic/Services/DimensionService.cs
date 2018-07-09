@@ -19,8 +19,7 @@ namespace Pat.BusinessLogic.Services
 
         public double FromSI(double valueInSI, string dimensionIdentifier)
         {
-            IDimensionModule dimensionModule;
-            if (!_dimensionModules.TryGetValue(dimensionIdentifier, out dimensionModule))
+            if (!_dimensionModules.TryGetValue(dimensionIdentifier, out var dimensionModule))
                 throw new ArgumentException($"The dimension with identifier {dimensionIdentifier} is not found.");
             
             return dimensionModule.FromSI(valueInSI);

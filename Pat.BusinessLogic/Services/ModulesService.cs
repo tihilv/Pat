@@ -5,14 +5,15 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Pat.Api.Modules;
+using Pat.Api.Services;
 
 namespace Pat.BusinessLogic.Services
 {
-    public class ModulesLoader
+    public class ModulesService : IModulesService
     {
         private readonly List<IModule> _modules;
 
-        public ModulesLoader(string path)
+        public ModulesService(string path)
         {
             _modules = new List<IModule>();
 
@@ -31,7 +32,7 @@ namespace Pat.BusinessLogic.Services
             }
         }
 
-        private IEnumerable<IModule> LoadModules(string path)
+        public IEnumerable<IModule> LoadModules(string path)
         {
             Assembly assembly = Assembly.LoadFile(path);
             Type[] types = assembly.GetTypes();
@@ -40,13 +41,10 @@ namespace Pat.BusinessLogic.Services
             {
                 IModule module = null;
 
-                if (modelElementType != null)
+                ConstructorInfo constructorInfo = modelElementType.GetConstructor(new Type[] { });
+                if (constructorInfo != null)
                 {
-                    ConstructorInfo constructorInfo = modelElementType.GetConstructor(new Type[] { });
-                    if (constructorInfo != null)
-                    {
-                        module = (IModule) constructorInfo.Invoke(new object[] { });
-                    }
+                    module = (IModule) constructorInfo.Invoke(new object[] { });
                 }
 
                 string filename = Path.GetFileName(path);

@@ -8,10 +8,6 @@ using Pat.BusinessLogic.Annotations;
 
 namespace Pat.BusinessLogic
 {
-    public interface IOptionsProvider
-    {
-        IOptions SelectedModuleOptions { get; }
-    }
     public class ModuleSelector<T>: IOptionsProvider, INotifyPropertyChanged where T:IModule
     {
         private readonly IOptionsService _optionsService;

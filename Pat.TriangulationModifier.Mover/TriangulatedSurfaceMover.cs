@@ -11,7 +11,7 @@ namespace Pat.TriangulationModifier.Mover
         
         public IOptions GetDefaultOptions()
         {
-            return new TriangulatedSurfaceMoverOptions() {Z = "100 m"};
+            return new TriangulatedSurfaceMoverOptions() {X = "0 m", Y = "0 m", Z = "100 m"};
         }
 
         public TriangulatedSurface GetModifiedSurface(TriangulatedSurface surface, IOptions options)

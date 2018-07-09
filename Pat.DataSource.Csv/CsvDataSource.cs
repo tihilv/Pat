@@ -37,16 +37,17 @@ namespace Pat.DataSource.Csv
                 double y = 0;
                 while (!reader.EndOfStream)
                 {
-                    var line = reader.ReadLine().Split(new [] {csvOptions.Separator}, StringSplitOptions.RemoveEmptyEntries);
+                    var line = reader.ReadLine()?.Split(new [] {csvOptions.Separator}, StringSplitOptions.RemoveEmptyEntries);
 
                     double x = 0;
-                    foreach (var s in line)
-                    {
-                        var z = double.Parse(s) * csvOptions.HeightMultiplier;
-                        points.Add(new Point3D(x, y, z));
+                    if (line != null)
+                        foreach (var s in line)
+                        {
+                            var z = double.Parse(s) * csvOptions.HeightMultiplier;
+                            points.Add(new Point3D(x, y, z));
 
-                        x += csvOptions.GridStep;
-                    }
+                            x += csvOptions.GridStep;
+                        }
 
                     y += csvOptions.GridStep;
                 }
