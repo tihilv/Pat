@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
 using System.Windows.Media.Media3D;
 using Pat.Api.Model;
 
@@ -34,6 +29,9 @@ namespace Pat.Ui.Controls
             
 
             var indices = new Int32Collection();
+            indices.Add(0);
+            indices.Add(1);
+            indices.Add(2);
                         
             var geometry = new MeshGeometry3D { Positions = points, TriangleIndices = indices };            
             var material = new MaterialGroup 

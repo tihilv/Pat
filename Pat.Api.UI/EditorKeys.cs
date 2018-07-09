@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Pat.Api.Editors
+namespace Pat.Api.Ui
 {
     public static class EditorKeys
     {

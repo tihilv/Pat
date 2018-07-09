@@ -1,8 +1,9 @@
 ﻿using System.Windows;
 using System.Windows.Controls.WpfPropertyGrid;
 using Microsoft.Win32;
+using EditorKeys = Pat.Api.Ui.EditorKeys;
 
-namespace Pat.Api.Editors
+namespace Pat.Api.Ui
 {
     public class FilePathPicker : PropertyEditor
     {

@@ -17,6 +17,7 @@ namespace Pat.Tests
             options.FileName = Path.Combine(TestDir, "simpleSurface.csv");
             options.GridStep = "100 m";
             options.Separator = " ";
+            options.HeightMultiplier = "1 m";
 
             SourceSurface result = csvDataSource.GetSurface(options);
 
@@ -31,6 +32,7 @@ namespace Pat.Tests
             options.FileName = Path.Combine(TestDir, "simpleSurface_emptyLine.csv");
             options.GridStep = "100 m";
             options.Separator = " ";
+            options.HeightMultiplier = "1 m";
 
             SourceSurface result = csvDataSource.GetSurface(options);
 
@@ -45,6 +47,7 @@ namespace Pat.Tests
             options.FileName = Path.Combine(TestDir, "simpleSurface_separator.csv");
             options.GridStep = "100 m";
             options.Separator = ";";
+            options.HeightMultiplier = "1 m";
 
             SourceSurface result = csvDataSource.GetSurface(options);
 

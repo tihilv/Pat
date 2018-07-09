@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:Pat.Ui"
         xmlns:controls="clr-namespace:Pat.Ui.Controls"
         mc:Ignorable="d"
-        Title="PAT" Height="600" Width="800">
+        Title="PAT" Height="622.185" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -15,24 +15,26 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Viewport3D x:Name="viewport" Grid.Column="0">
-            <ModelVisual3D>
-                <ModelVisual3D.Content>
-                    <Model3DGroup>
-                        <DirectionalLight x:Name="light" Color="#FF808080" Direction="0 -2 -1" />
-                        <AmbientLight Color="LightYellow" />
-                    </Model3DGroup>
-                </ModelVisual3D.Content>
-            </ModelVisual3D>
+        <Grid x:Name="background" Background="Transparent" Grid.Column="0">
+            <Viewport3D x:Name="viewport">
+                <ModelVisual3D>
+                    <ModelVisual3D.Content>
+                        <Model3DGroup>
+                            <DirectionalLight x:Name="light" Color="#FF808080" Direction="0 -2 -1" />
+                            <AmbientLight Color="LightYellow" />
+                        </Model3DGroup>
+                    </ModelVisual3D.Content>
+                </ModelVisual3D>
 
-            <Viewport3D.Camera>
-                <PerspectiveCamera x:Name="camera" Position="0 0 80" UpDirection="0 1 0"
-                                   LookDirection="0 0 -1" FieldOfView="45">
-                </PerspectiveCamera>
-            </Viewport3D.Camera>
-        </Viewport3D>
+                <Viewport3D.Camera>
+                    <PerspectiveCamera x:Name="camera" Position="0 0 80" UpDirection="0 0 1"
+                                   FieldOfView="60">
+                    </PerspectiveCamera>
+                </Viewport3D.Camera>
+            </Viewport3D>
+        </Grid>
 
-        
+
         <GridSplitter Grid.Column="1" ShowsPreview="False" Width="3"
                       HorizontalAlignment="Center" VerticalAlignment="Stretch" />
         <StackPanel Grid.Column="2">

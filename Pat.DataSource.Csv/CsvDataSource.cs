@@ -24,6 +24,12 @@ namespace Pat.DataSource.Csv
         public SourceSurface GetSurface(IOptions options)
         {
             var csvOptions = (CsvOptions) options;
+
+            if (string.IsNullOrEmpty(csvOptions.FileName))
+                throw new Exception("Source file for data import is not specified.");
+
+            if (!File.Exists(csvOptions.FileName))
+                throw new Exception("Source file not found.");
             
             List<Point3D> points = new List<Point3D>();
             using (var reader = new StreamReader(csvOptions.FileName))

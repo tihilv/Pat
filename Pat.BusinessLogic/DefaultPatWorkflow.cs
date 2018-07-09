@@ -1,9 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Pat.Api.Model;
 using Pat.Api.Modules;
+using Pat.Api.Services;
 using Pat.BusinessLogic.Annotations;
 using Pat.BusinessLogic.Services;
 
@@ -12,6 +14,7 @@ namespace Pat.BusinessLogic
     public class DefaultPatWorkflow: INotifyPropertyChanged
     {
         private ModulesLoader _modulesLoader;
+        private IOptionsService _optionsService;
 
         private readonly ModuleSelector<IDataSourceModule> _topHorizonDataSourceSelector;
         private readonly ModuleSelector<ISourceModifierModule> _baseHorizonModifierSelector;
@@ -28,19 +31,22 @@ namespace Pat.BusinessLogic
         private TriangulatedSurface _cutTriangulatedTopHorizon;
         private TriangulatedSurface _cutTriangulatedBaseHorizon;
 
-        private double _result;
+        private double _resultValue;
 
-        public DefaultPatWorkflow(string modulesDirectory)
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public DefaultPatWorkflow(string appDirectory)
         {
-            _modulesLoader = new ModulesLoader(modulesDirectory);
+            _modulesLoader = new ModulesLoader(Path.Combine(appDirectory, "Modules"));
+            _optionsService = new OptionsService(Path.Combine(appDirectory, "options.bin"));
 
             DimensionedValue.DimensionService = new DimensionService(_modulesLoader.GetModules<IDimensionModule>());
 
-            _topHorizonDataSourceSelector = new ModuleSelector<IDataSourceModule>(_modulesLoader.GetModules<IDataSourceModule>());
-            _baseHorizonModifierSelector = new ModuleSelector<ISourceModifierModule>(_modulesLoader.GetModules<ISourceModifierModule>());
-            _triangulationModuleSelector = new ModuleSelector<ITriangulationModule>(_modulesLoader.GetModules<ITriangulationModule>());
-            _fluidContactModifierSelector = new ModuleSelector<ITriangulationModifierModule>(_modulesLoader.GetModules<ITriangulationModifierModule>());
-            _resultDimensionSelector = new ModuleSelector<IDimensionModule>(_modulesLoader.GetModules<IDimensionModule>().Where(m => m.Type == DimensionType.Cubic));
+            _topHorizonDataSourceSelector = new ModuleSelector<IDataSourceModule>(_modulesLoader.GetModules<IDataSourceModule>(), _optionsService);
+            _baseHorizonModifierSelector = new ModuleSelector<ISourceModifierModule>(_modulesLoader.GetModules<ISourceModifierModule>(), _optionsService);
+            _triangulationModuleSelector = new ModuleSelector<ITriangulationModule>(_modulesLoader.GetModules<ITriangulationModule>(), _optionsService);
+            _fluidContactModifierSelector = new ModuleSelector<ITriangulationModifierModule>(_modulesLoader.GetModules<ITriangulationModifierModule>(), _optionsService);
+            _resultDimensionSelector = new ModuleSelector<IDimensionModule>(_modulesLoader.GetModules<IDimensionModule>().Where(m => m.Type == DimensionType.Cubic), _optionsService);
 
             _resultDimensionSelector.PropertyChanged += ResultDimensionSelectorOnPropertyChanged;
 
@@ -57,7 +63,7 @@ namespace Pat.BusinessLogic
 
         public ModuleSelector<IDimensionModule> ResultDimensionSelector => _resultDimensionSelector;
 
-        public DimensionedValue Result => _result.AsDimensionedValue(ResultDimensionSelector.SelectedModule.Identifier);
+        public DimensionedValue Result => ResultValue.AsDimensionedValue(ResultDimensionSelector.SelectedModule.Identifier);
 
         public bool HasResult => _cutTriangulatedTopHorizon != null;
 
@@ -65,7 +71,19 @@ namespace Pat.BusinessLogic
 
         public TriangulatedSurface CutTriangulatedBaseHorizon => _cutTriangulatedBaseHorizon;
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        private double ResultValue
+        {
+            get => _resultValue;
+            set
+            {
+                if (_resultValue != value)
+                {
+                    _resultValue = value;
+                    OnPropertyChanged(nameof(Result));
+                    OnPropertyChanged(nameof(HasResult));
+                }
+            }
+        }
 
         public void Calculate()
         {
@@ -85,10 +103,9 @@ namespace Pat.BusinessLogic
             var volumeTop = _volumeService.GetVolumeUnderSurface(_cutTriangulatedTopHorizon, maxZ);
             var volumeBase = _volumeService.GetVolumeUnderSurface(_cutTriangulatedBaseHorizon, maxZ);
 
-            _result = volumeTop - volumeBase;
+            ResultValue = volumeTop - volumeBase;
 
-            OnPropertyChanged(nameof(Result));
-            OnPropertyChanged(nameof(HasResult));
+            _optionsService.SaveOptions();
         }
 
         

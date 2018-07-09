@@ -3,12 +3,13 @@ using Pat.Api.Services;
 
 namespace Pat.Api.Model
 {
+    [Serializable]
     public class DimensionedValue
     {
         public static IDimensionService DimensionService;
         
-        private double _siValue;
-        private string _dimensionIdentifier;
+        private readonly double _siValue;
+        private readonly string _dimensionIdentifier;
 
         public DimensionedValue(double siValue, string dimensionIdentifier)
         {
